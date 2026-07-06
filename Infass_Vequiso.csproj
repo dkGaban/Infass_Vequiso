@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="wwwroot\assets\favicon.ico" />
+    <Content Remove="wwwroot\assets\img\avataaars.svg" />
+    <Content Remove="wwwroot\assets\img\portfolio\cabin.png" />
+    <Content Remove="wwwroot\assets\img\portfolio\cake.png" />
+    <Content Remove="wwwroot\assets\img\portfolio\circus.png" />
+    <Content Remove="wwwroot\assets\img\portfolio\game.png" />
+    <Content Remove="wwwroot\assets\img\portfolio\safe.png" />
+    <Content Remove="wwwroot\assets\img\portfolio\submarine.png" />
+    <Content Remove="wwwroot\css\styles.css" />
+    <Content Remove="wwwroot\js\scripts.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\favicon.ico" />
+    <None Include="wwwroot\assets\img\avataaars.svg" />
+    <None Include="wwwroot\assets\img\portfolio\cabin.png" />
+    <None Include="wwwroot\assets\img\portfolio\cake.png" />
+    <None Include="wwwroot\assets\img\portfolio\circus.png" />
+    <None Include="wwwroot\assets\img\portfolio\game.png" />
+    <None Include="wwwroot\assets\img\portfolio\safe.png" />
+    <None Include="wwwroot\assets\img\portfolio\submarine.png" />
+    <None Include="wwwroot\css\styles.css" />
+    <None Include="wwwroot\js\scripts.js" />
+  </ItemGroup>
+
+</Project>
