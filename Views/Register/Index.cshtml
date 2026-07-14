@@ -1,0 +1,115 @@
+@{
+    ViewData["Title"] = "Register";
+}
+
+<!-- Register Section -->
+<section class="page-section" id="register">
+    <div class="container">
+        <!-- Register Section Heading -->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Create an Account</h2>
+        <!-- Icon Divider -->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Register Form -->
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <form>
+                            <!-- Full Name -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="fullName" type="text" placeholder="Enter your full name..." />
+                                <label for="fullName">Full Name</label>
+                            </div>
+                            <!-- Email Address -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" />
+                                <label for="email">Email Address</label>
+                            </div>
+                            <!-- Gender -->
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Gender</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderMale" value="male" />
+                                    <label class="form-check-label" for="genderMale">Male</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="female" />
+                                    <label class="form-check-label" for="genderFemale">Female</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderPreferNot" value="prefer-not" />
+                                    <label class="form-check-label" for="genderPreferNot">Prefer not to say</label>
+                                </div>
+                            </div>
+                            <!-- Age -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="age" type="number" placeholder="Enter your age..." min="1" max="150" />
+                                <label for="age">Age</label>
+                            </div>
+                            <!-- Complete Address -->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="address" type="text" placeholder="Enter your complete address..." style="height: 8rem"></textarea>
+                                <label for="address">Complete Address</label>
+                            </div>
+                            <!-- Username -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="username" type="text" placeholder="Choose a username..." />
+                                <label for="username">Username</label>
+                            </div>
+                            <!-- Password -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" placeholder="Enter your password..." />
+                                <label for="password">Password</label>
+                            </div>
+                            <!-- Confirm Password -->
+                            <div class="form-floating mb-4">
+                                <input class="form-control" id="confirmPassword" type="password" placeholder="Confirm your password..." />
+                                <label for="confirmPassword">Confirm Password</label>
+                            </div>
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                                <button class="btn btn-primary btn-lg" id="registerButton" type="button" onclick="showRegisterMessage()">
+                                    <i class="fas fa-user-plus me-2"></i>Register
+                                </button>
+                                <a class="btn btn-secondary btn-lg" asp-area="" asp-controller="Home" asp-action="Index">
+                                    <i class="fas fa-home me-2"></i>Back to Home
+                                </a>
+                            </div>
+                        </form>
+                        <div class="text-center mt-4">
+                            <p class="mb-0">
+                                Already have an account?
+                                <a class="fw-bold" asp-area="" asp-controller="Login" asp-action="Index" style="color: var(--bs-primary);">Login</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="registerToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-check-circle me-2"></i>Registration functionality coming soon.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showRegisterMessage() {
+            var toastEl = document.getElementById('registerToast');
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+    </script>
+}

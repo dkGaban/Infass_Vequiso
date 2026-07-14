@@ -1,0 +1,79 @@
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!-- Login Section -->
+<section class="page-section" id="login">
+    <div class="container">
+        <!-- Login Section Heading -->
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Welcome Back</h2>
+        <!-- Icon Divider -->
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <!-- Login Form -->
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-xl-5">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <form>
+                            <!-- Username -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="username" type="text" placeholder="Enter your username..." />
+                                <label for="username">Username</label>
+                            </div>
+                            <!-- Password -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" placeholder="Enter your password..." />
+                                <label for="password">Password</label>
+                            </div>
+                            <!-- Remember Me -->
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="rememberMe" />
+                                <label class="form-check-label" for="rememberMe">Remember Me</label>
+                            </div>
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                                <button class="btn btn-primary btn-lg" id="loginButton" type="button" onclick="showLoginMessage()">
+                                    <i class="fas fa-sign-in-alt me-2"></i>Login
+                                </button>
+                                <a class="btn btn-secondary btn-lg" asp-area="" asp-controller="Home" asp-action="Index">
+                                    <i class="fas fa-home me-2"></i>Back to Home
+                                </a>
+                            </div>
+                        </form>
+                        <div class="text-center mt-4">
+                            <p class="mb-0">
+                                Don't have an account?
+                                <a class="fw-bold" asp-area="" asp-controller="Register" asp-action="Index" style="color: var(--bs-primary);">Register</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="loginToast" class="toast align-items-center text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                <i class="fas fa-check-circle me-2"></i>Login functionality coming soon.
+            </div>
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function showLoginMessage() {
+            var toastEl = document.getElementById('loginToast');
+            var toast = new bootstrap.Toast(toastEl);
+            toast.show();
+        }
+    </script>
+}
