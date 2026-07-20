@@ -72,7 +72,7 @@
                             </div>
                             <!-- Buttons -->
                             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                                <button class="btn btn-primary btn-lg" id="registerButton" type="button" onclick="showRegisterMessage()">
+                                <button class="btn btn-primary btn-lg" id="registerButton" type="button">
                                     <i class="fas fa-user-plus me-2"></i>Register
                                 </button>
                                 <a class="btn btn-secondary btn-lg" asp-area="" asp-controller="Home" asp-action="Index">
@@ -106,10 +106,61 @@
 
 @section Scripts {
     <script>
-        function showRegisterMessage() {
-            var toastEl = document.getElementById('registerToast');
-            var toast = new bootstrap.Toast(toastEl);
-            toast.show();
-        }
+        $(document).ready(function () {
+            $('#registerButton').on('click', function () {
+                var fullName = $.trim($('#fullName').val());
+                var email = $.trim($('#email').val());
+                var gender = $('input[name="gender"]:checked').val() || '';
+                var age = $.trim($('#age').val());
+                var address = $.trim($('#address').val());
+                var username = $.trim($('#username').val());
+                var password = $('#password').val();
+                var confirmPassword = $('#confirmPassword').val();
+
+                if (!fullName) { alert('Please enter your Full Name.'); return; }
+                if (!email) { alert('Please enter your Email Address.'); return; }
+                if (!gender) { alert('Please select your Gender.'); return; }
+                if (!age) { alert('Please enter your Age.'); return; }
+                if (!address) { alert('Please enter your Complete Address.'); return; }
+                if (!username) { alert('Please enter a Username.'); return; }
+                if (!password) { alert('Please enter a Password.'); return; }
+                if (!confirmPassword) { alert('Please confirm your Password.'); return; }
+                if (password !== confirmPassword) { alert('Password and Confirm Password do not match.'); return; }
+
+                $.ajax({
+                    url: '/Register/Register',
+                    type: 'POST',
+                    data: {
+                        fullName: fullName,
+                        email: email,
+                        gender: gender,
+                        age: age,
+                        address: address,
+                        username: username,
+                        password: password,
+                        confirmPassword: confirmPassword
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            var d = response.data;
+                            alert(
+                                'Registration Successful!\n\n' +
+                                'Full Name: ' + d.fullName + '\n' +
+                                'Email: ' + d.email + '\n' +
+                                'Gender: ' + d.gender + '\n' +
+                                'Age: ' + d.age + '\n' +
+                                'Address: ' + d.address + '\n' +
+                                'Username: ' + d.username
+                            );
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+        });
     </script>
 }

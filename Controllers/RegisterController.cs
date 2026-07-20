@@ -5,6 +5,8 @@ namespace Infass_Vequiso.Controllers
 {
     public class RegisterController : Controller
     {
+        private static List<User> _users = new List<User>();
+
         public IActionResult Index()
         {
             return View();
@@ -22,6 +24,8 @@ namespace Infass_Vequiso.Controllers
 
                 return Json(new { success = false, message = error });
             }
+
+            _users.Add(user);
 
             return Json(new
             {
