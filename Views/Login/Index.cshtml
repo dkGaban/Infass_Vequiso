@@ -36,7 +36,7 @@
                             </div>
                             <!-- Buttons -->
                             <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                                <button class="btn btn-primary btn-lg" id="loginButton" type="button" onclick="showLoginMessage()">
+                                <button class="btn btn-primary btn-lg" id="loginButton" type="button">
                                     <i class="fas fa-sign-in-alt me-2"></i>Login
                                 </button>
                                 <a class="btn btn-secondary btn-lg" asp-area="" asp-controller="Home" asp-action="Index">
@@ -70,10 +70,33 @@
 
 @section Scripts {
     <script>
-        function showLoginMessage() {
-            var toastEl = document.getElementById('loginToast');
-            var toast = new bootstrap.Toast(toastEl);
-            toast.show();
-        }
+        $(document).ready(function () {
+            $('#loginButton').on('click', function () {
+                var username = $.trim($('#username').val());
+                var password = $('#password').val();
+
+                if (!username) { alert('Please enter your Username.'); return; }
+                if (!password) { alert('Please enter your Password.'); return; }
+
+                $.ajax({
+                    url: '/Login/Login',
+                    type: 'POST',
+                    data: {
+                        username: username,
+                        password: password
+                    },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.query);
+                        } else {
+                            alert(response.message);
+                        }
+                    },
+                    error: function () {
+                        alert('An error occurred. Please try again.');
+                    }
+                });
+            });
+        });
     </script>
 }

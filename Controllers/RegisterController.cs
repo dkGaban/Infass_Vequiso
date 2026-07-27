@@ -5,41 +5,49 @@ namespace Infass_Vequiso.Controllers
 {
     public class RegisterController : Controller
     {
-        private static List<User> _users = new List<User>();
+        User user = new User();
 
+        [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Register(User user)
+        public IActionResult Register(
+            string FullName,
+            string Email,
+            string Gender,
+            int Age,
+            string Address,
+            string Username,
+            string Password)
         {
-            if (!ModelState.IsValid)
+            string[] fields =
             {
-                var error = ModelState.Values
-                    .SelectMany(v => v.Errors)
-                    .Select(e => e.ErrorMessage)
-                    .FirstOrDefault();
+                "FullName",
+                "Email",
+                "Gender",
+                "Age",
+                "Address",
+                "Username",
+                "Password"
+            };
 
-                return Json(new { success = false, message = error });
-            }
-
-            _users.Add(user);
-
-            return Json(new
+            object[] values =
             {
-                success = true,
-                data = new
-                {
-                    user.FullName,
-                    user.Email,
-                    user.Gender,
-                    user.Age,
-                    user.Address,
-                    user.Username
-                }
-            });
+                FullName,
+                Email,
+                Gender,
+                Age,
+                Address,
+                Username,
+                Password
+            };
+
+            string query = user.getquery(fields, values, "User");
+
+            return Json(new { success = true, query = query });
         }
     }
 }

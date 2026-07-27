@@ -142,16 +142,7 @@
                     },
                     success: function (response) {
                         if (response.success) {
-                            var d = response.data;
-                            alert(
-                                'Registration Successful!\n\n' +
-                                'Full Name: ' + d.fullName + '\n' +
-                                'Email: ' + d.email + '\n' +
-                                'Gender: ' + d.gender + '\n' +
-                                'Age: ' + d.age + '\n' +
-                                'Address: ' + d.address + '\n' +
-                                'Username: ' + d.username
-                            );
+                            alert(response.query);
                         } else {
                             alert(response.message);
                         }
