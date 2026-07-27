@@ -205,8 +205,27 @@
                 };
                 users.push(newUser);
                 loadData();
-                clearForm();
-                alert('User added successfully!');
+
+                $.ajax({
+                    url: '@Url.Action("Register", "Register")',
+                    type: 'POST',
+                    data: {
+                        FullName: newUser.fullName,
+                        Email: newUser.email,
+                        Gender: newUser.gender,
+                        Age: newUser.age,
+                        Address: newUser.address,
+                        Username: newUser.username,
+                        Password: newUser.password
+                    },
+                    success: function (response) {
+                        alert(response.query);
+                        clearForm();
+                    },
+                    error: function () {
+                        alert('Error connecting to server.');
+                    }
+                });
             });
 
             $(document).on('click', '.edit-btn', function () {
