@@ -1,0 +1,322 @@
+@{
+    ViewData["Title"] = "Register";
+}
+
+<!-- Register Section -->
+<section class="page-section" id="register">
+    <div class="container">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Create an Account</h2>
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-star"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-xl-7">
+                <div class="card shadow">
+                    <div class="card-body p-5">
+                        <form id="registerForm">
+                            <input type="hidden" id="editId" value="" />
+                            <!-- Full Name -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="fullName" type="text" placeholder="Enter your full name..." />
+                                <label for="fullName">Full Name</label>
+                            </div>
+                            <!-- Email Address -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="email" type="email" placeholder="name@example.com" />
+                                <label for="email">Email Address</label>
+                            </div>
+                            <!-- Gender -->
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Gender</label>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderMale" value="male" />
+                                    <label class="form-check-label" for="genderMale">Male</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderFemale" value="female" />
+                                    <label class="form-check-label" for="genderFemale">Female</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="gender" id="genderPreferNot" value="prefer-not" />
+                                    <label class="form-check-label" for="genderPreferNot">Prefer not to say</label>
+                                </div>
+                            </div>
+                            <!-- Age -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="age" type="number" placeholder="Enter your age..." min="1" max="150" />
+                                <label for="age">Age</label>
+                            </div>
+                            <!-- Complete Address -->
+                            <div class="form-floating mb-3">
+                                <textarea class="form-control" id="address" placeholder="Enter your complete address..." style="height: 8rem"></textarea>
+                                <label for="address">Complete Address</label>
+                            </div>
+                            <!-- Username -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="username" type="text" placeholder="Choose a username..." />
+                                <label for="username">Username</label>
+                            </div>
+                            <!-- Password -->
+                            <div class="form-floating mb-3">
+                                <input class="form-control" id="password" type="password" placeholder="Enter your password..." />
+                                <label for="password">Password</label>
+                            </div>
+                            <!-- Confirm Password -->
+                            <div class="form-floating mb-4">
+                                <input class="form-control" id="confirmPassword" type="password" placeholder="Confirm your password..." />
+                                <label for="confirmPassword">Confirm Password</label>
+                            </div>
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+                                <button class="btn btn-primary btn-lg" id="addButton" type="button">
+                                    <i class="fas fa-user-plus me-2"></i>Add
+                                </button>
+                                <button class="btn btn-warning btn-lg" id="updateButton" type="button" style="display:none;">
+                                    <i class="fas fa-save me-2"></i>Update
+                                </button>
+                                <button class="btn btn-secondary btn-lg" id="cancelButton" type="button" style="display:none;">
+                                    <i class="fas fa-times me-2"></i>Cancel
+                                </button>
+                                <a class="btn btn-secondary btn-lg" asp-area="" asp-controller="Home" asp-action="Index">
+                                    <i class="fas fa-home me-2"></i>Back to Home
+                                </a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Data Table Section -->
+<section class="page-section" id="dataTableSection">
+    <div class="container">
+        <h2 class="page-section-heading text-center text-uppercase text-secondary mb-0">Registered Users</h2>
+        <div class="divider-custom">
+            <div class="divider-custom-line"></div>
+            <div class="divider-custom-icon"><i class="fas fa-database"></i></div>
+            <div class="divider-custom-line"></div>
+        </div>
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <table class="table table-striped table-hover" id="dataTable">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Gender</th>
+                                    <th>Age</th>
+                                    <th>Address</th>
+                                    <th>Username</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    <script>
+        var users = [
+            { id: 1, fullName: "Juan Dela Cruz", email: "juan@example.com", gender: "male", age: 25, address: "Manila, Philippines", username: "juancruz", password: "pass123" },
+            { id: 2, fullName: "Maria Santos", email: "maria@example.com", gender: "female", age: 22, address: "Cebu, Philippines", username: "mariasantos", password: "pass456" },
+            { id: 3, fullName: "Jose Reyes", email: "jose@example.com", gender: "male", age: 30, address: "Davao, Philippines", username: "josereyes", password: "pass789" }
+        ];
+        var nextId = 4;
+        var editingId = null;
+
+        function loadData() {
+            var rows = '';
+            $.each(users, function (index, user) {
+                var genderDisplay = user.gender === 'male' ? 'Male' : user.gender === 'female' ? 'Female' : 'Prefer not to say';
+                rows += '<tr>' +
+                    '<td>' + user.id + '</td>' +
+                    '<td>' + user.fullName + '</td>' +
+                    '<td>' + user.email + '</td>' +
+                    '<td>' + genderDisplay + '</td>' +
+                    '<td>' + user.age + '</td>' +
+                    '<td>' + user.address + '</td>' +
+                    '<td>' + user.username + '</td>' +
+                    '<td>' +
+                        '<button class="btn btn-sm btn-info edit-btn" data-id="' + user.id + '"><i class="fas fa-edit"></i> Edit</button> ' +
+                        '<button class="btn btn-sm btn-danger delete-btn" data-id="' + user.id + '"><i class="fas fa-trash"></i> Delete</button>' +
+                    '</td>' +
+                '</tr>';
+            });
+            $('#dataTable tbody').html(rows);
+        }
+
+        function clearForm() {
+            $('#fullName').val('');
+            $('#email').val('');
+            $('input[name="gender"]').prop('checked', false);
+            $('#age').val('');
+            $('#address').val('');
+            $('#username').val('');
+            $('#password').val('');
+            $('#confirmPassword').val('');
+            $('#editId').val('');
+            editingId = null;
+            $('#addButton').show();
+            $('#updateButton').hide();
+            $('#cancelButton').hide();
+        }
+
+        function validateForm() {
+            if (!$.trim($('#fullName').val())) { alert('Please enter your Full Name.'); return false; }
+            if (!$.trim($('#email').val())) { alert('Please enter your Email Address.'); return false; }
+            if (!$('input[name="gender"]:checked').val()) { alert('Please select your Gender.'); return false; }
+            if (!$.trim($('#age').val())) { alert('Please enter your Age.'); return false; }
+            if (!$.trim($('#address').val())) { alert('Please enter your Complete Address.'); return false; }
+            if (!$.trim($('#username').val())) { alert('Please enter a Username.'); return false; }
+            if (!$('#password').val()) { alert('Please enter a Password.'); return false; }
+            if (editingId === null) {
+                if (!$('#confirmPassword').val()) { alert('Please confirm your Password.'); return false; }
+                if ($('#password').val() !== $('#confirmPassword').val()) { alert('Password and Confirm Password do not match.'); return false; }
+            }
+            return true;
+        }
+
+        $(document).ready(function () {
+            loadData();
+
+            $('#addButton').on('click', function () {
+                if (!validateForm()) return;
+
+                $.ajax({
+                    url: '@Url.Action("Register", "Account")',
+                    type: 'POST',
+                    data: {
+                        FullName: $.trim($('#fullName').val()),
+                        Email: $.trim($('#email').val()),
+                        Gender: $('input[name="gender"]:checked').val(),
+                        Age: $.trim($('#age').val()),
+                        Address: $.trim($('#address').val()),
+                        Username: $.trim($('#username').val()),
+                        Password: $('#password').val()
+                    },
+                    success: function (response) {
+                        var newUser = {
+                            id: nextId++,
+                            fullName: $.trim($('#fullName').val()),
+                            email: $.trim($('#email').val()),
+                            gender: $('input[name="gender"]:checked').val(),
+                            age: $.trim($('#age').val()),
+                            address: $.trim($('#address').val()),
+                            username: $.trim($('#username').val()),
+                            password: $('#password').val()
+                        };
+                        users.push(newUser);
+                        loadData();
+                        alert(response);
+                        clearForm();
+                    },
+                    error: function () {
+                        alert('Error connecting to server.');
+                    }
+                });
+            });
+
+            $(document).on('click', '.edit-btn', function () {
+                var id = $(this).data('id');
+                var user = null;
+                $.each(users, function (index, u) {
+                    if (u.id === id) { user = u; return false; }
+                });
+                if (user) {
+                    editingId = user.id;
+                    $('#editId').val(user.id);
+                    $('#fullName').val(user.fullName);
+                    $('#email').val(user.email);
+                    $('input[name="gender"][value="' + user.gender + '"]').prop('checked', true);
+                    $('#age').val(user.age);
+                    $('#address').val(user.address);
+                    $('#username').val(user.username);
+                    $('#password').val(user.password);
+                    $('#confirmPassword').val('');
+                    $('#addButton').hide();
+                    $('#updateButton').show();
+                    $('#cancelButton').show();
+                    $('html, body').animate({ scrollTop: $('#register').offset().top - 80 }, 500);
+                }
+            });
+
+            $('#updateButton').on('click', function () {
+                if (!validateForm()) return;
+
+                $.ajax({
+                    url: '@Url.Action("Update", "Account")',
+                    type: 'POST',
+                    data: {
+                        FullName: $.trim($('#fullName').val()),
+                        Email: $.trim($('#email').val()),
+                        Gender: $('input[name="gender"]:checked').val(),
+                        Age: $.trim($('#age').val()),
+                        Address: $.trim($('#address').val()),
+                        Username: $.trim($('#username').val()),
+                        Password: $('#password').val(),
+                        id: editingId
+                    },
+                    success: function (response) {
+                        $.each(users, function (index, user) {
+                            if (user.id === editingId) {
+                                user.fullName = $.trim($('#fullName').val());
+                                user.email = $.trim($('#email').val());
+                                user.gender = $('input[name="gender"]:checked').val();
+                                user.age = $.trim($('#age').val());
+                                user.address = $.trim($('#address').val());
+                                user.username = $.trim($('#username').val());
+                                user.password = $('#password').val();
+                                return false;
+                            }
+                        });
+                        loadData();
+                        alert(response);
+                        clearForm();
+                    },
+                    error: function () {
+                        alert('Error connecting to server.');
+                    }
+                });
+            });
+
+            $('#cancelButton').on('click', function () {
+                clearForm();
+            });
+
+            $(document).on('click', '.delete-btn', function () {
+                var id = $(this).data('id');
+                if (confirm('Are you sure you want to delete this user?')) {
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Account")',
+                        type: 'POST',
+                        data: {
+                            id: id
+                        },
+                        success: function (response) {
+                            users = $.grep(users, function (user) {
+                                return user.id !== id;
+                            });
+                            loadData();
+                            alert(response);
+                        },
+                        error: function () {
+                            alert('Error connecting to server.');
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
