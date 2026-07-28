@@ -1,7 +1,7 @@
 @{
     ViewData["Title"] = "Login";
 }
-//testttt
+
 <!-- Login Section -->
 <section class="page-section" id="login">
     <div class="container">
@@ -47,7 +47,7 @@
                         <div class="text-center mt-4">
                             <p class="mb-0">
                                 Don't have an account?
-                                <a class="fw-bold" asp-area="" asp-controller="Register" asp-action="Index" style="color: var(--bs-primary);">Register</a>
+                                <a class="fw-bold" asp-area="" asp-controller="Account" asp-action="Register" style="color: var(--bs-primary);">Register</a>
                             </p>
                         </div>
                     </div>
@@ -79,18 +79,14 @@
                 if (!password) { alert('Please enter your Password.'); return; }
 
                 $.ajax({
-                    url: '/Login/Login',
+                    url: '@Url.Action("Login", "Account")',
                     type: 'POST',
                     data: {
-                        username: username,
-                        password: password
+                        Username: username,
+                        Password: password
                     },
                     success: function (response) {
-                        if (response.success) {
-                            alert(response.query);
-                        } else {
-                            alert(response.message);
-                        }
+                        alert(response);
                     },
                     error: function () {
                         alert('An error occurred. Please try again.');

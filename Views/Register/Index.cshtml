@@ -193,33 +193,33 @@
 
             $('#addButton').on('click', function () {
                 if (!validateForm()) return;
-                var newUser = {
-                    id: nextId++,
-                    fullName: $.trim($('#fullName').val()),
-                    email: $.trim($('#email').val()),
-                    gender: $('input[name="gender"]:checked').val(),
-                    age: $.trim($('#age').val()),
-                    address: $.trim($('#address').val()),
-                    username: $.trim($('#username').val()),
-                    password: $('#password').val()
-                };
-                users.push(newUser);
-                loadData();
 
                 $.ajax({
-                    url: '@Url.Action("Register", "Register")',
+                    url: '@Url.Action("Register", "Account")',
                     type: 'POST',
                     data: {
-                        FullName: newUser.fullName,
-                        Email: newUser.email,
-                        Gender: newUser.gender,
-                        Age: newUser.age,
-                        Address: newUser.address,
-                        Username: newUser.username,
-                        Password: newUser.password
+                        FullName: $.trim($('#fullName').val()),
+                        Email: $.trim($('#email').val()),
+                        Gender: $('input[name="gender"]:checked').val(),
+                        Age: $.trim($('#age').val()),
+                        Address: $.trim($('#address').val()),
+                        Username: $.trim($('#username').val()),
+                        Password: $('#password').val()
                     },
                     success: function (response) {
-                        alert(response.query);
+                        var newUser = {
+                            id: nextId++,
+                            fullName: $.trim($('#fullName').val()),
+                            email: $.trim($('#email').val()),
+                            gender: $('input[name="gender"]:checked').val(),
+                            age: $.trim($('#age').val()),
+                            address: $.trim($('#address').val()),
+                            username: $.trim($('#username').val()),
+                            password: $('#password').val()
+                        };
+                        users.push(newUser);
+                        loadData();
+                        alert(response);
                         clearForm();
                     },
                     error: function () {
@@ -254,21 +254,41 @@
 
             $('#updateButton').on('click', function () {
                 if (!validateForm()) return;
-                $.each(users, function (index, user) {
-                    if (user.id === editingId) {
-                        user.fullName = $.trim($('#fullName').val());
-                        user.email = $.trim($('#email').val());
-                        user.gender = $('input[name="gender"]:checked').val();
-                        user.age = $.trim($('#age').val());
-                        user.address = $.trim($('#address').val());
-                        user.username = $.trim($('#username').val());
-                        user.password = $('#password').val();
-                        return false;
+
+                $.ajax({
+                    url: '@Url.Action("Update", "Account")',
+                    type: 'POST',
+                    data: {
+                        FullName: $.trim($('#fullName').val()),
+                        Email: $.trim($('#email').val()),
+                        Gender: $('input[name="gender"]:checked').val(),
+                        Age: $.trim($('#age').val()),
+                        Address: $.trim($('#address').val()),
+                        Username: $.trim($('#username').val()),
+                        Password: $('#password').val(),
+                        id: editingId
+                    },
+                    success: function (response) {
+                        $.each(users, function (index, user) {
+                            if (user.id === editingId) {
+                                user.fullName = $.trim($('#fullName').val());
+                                user.email = $.trim($('#email').val());
+                                user.gender = $('input[name="gender"]:checked').val();
+                                user.age = $.trim($('#age').val());
+                                user.address = $.trim($('#address').val());
+                                user.username = $.trim($('#username').val());
+                                user.password = $('#password').val();
+                                return false;
+                            }
+                        });
+                        loadData();
+                        alert(response);
+                        clearForm();
+                    },
+                    error: function () {
+                        alert('Error connecting to server.');
                     }
                 });
-                loadData();
-                clearForm();
-                alert('User updated successfully!');
             });
 
             $('#cancelButton').on('click', function () {
@@ -278,11 +298,23 @@
             $(document).on('click', '.delete-btn', function () {
                 var id = $(this).data('id');
                 if (confirm('Are you sure you want to delete this user?')) {
-                    users = $.grep(users, function (user) {
-                        return user.id !== id;
+                    $.ajax({
+                        url: '@Url.Action("Delete", "Account")',
+                        type: 'POST',
+                        data: {
+                            id: id
+                        },
+                        success: function (response) {
+                            users = $.grep(users, function (user) {
+                                return user.id !== id;
+                            });
+                            loadData();
+                            alert(response);
+                        },
+                        error: function () {
+                            alert('Error connecting to server.');
+                        }
                     });
-                    loadData();
-                    alert('User deleted successfully!');
                 }
             });
         });

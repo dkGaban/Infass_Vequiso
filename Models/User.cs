@@ -2,79 +2,61 @@ namespace Infass_Vequiso.Models
 {
     public class User
     {
-        public string FullName { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
-        public string Gender { get; set; } = string.Empty;
-        public int Age { get; set; }
-        public string Address { get; set; } = string.Empty;
-        public string Username { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public string ConfirmPassword { get; set; } = string.Empty;
-
-        public string getquery(string[] fields, object[] values, string tb)
+        public string SqlInsert(string[] fields, string[] values, string tb)
         {
-            string fieldList = "";
-            string valueList = "";
+            string fieldlist = "";
+            string valuelist = "";
 
             for (int i = 0; i < fields.Length; i++)
             {
-                fieldList += fields[i];
+                fieldlist += fields[i];
 
                 if (i < fields.Length - 1)
-                {
-                    fieldList += ", ";
-                }
+                    fieldlist += ", ";
             }
 
             for (int i = 0; i < values.Length; i++)
             {
-                if (values[i] is string)
-                {
-                    valueList += "'" + values[i] + "'";
-                }
-                else
-                {
-                    valueList += values[i];
-                }
+                valuelist += $"'{values[i]}'";
 
                 if (i < values.Length - 1)
-                {
-                    valueList += ", ";
-                }
+                    valuelist += ", ";
             }
 
-            string query = "INSERT INTO " + tb +
-                           " (" + fieldList + ")" +
-                           " VALUES (" + valueList + ");";
-
-            return query;
+            return $"INSERT INTO {tb} ({fieldlist}) VALUES ({valuelist});";
         }
 
-        public string getloginquery(string[] fields, object[] values, string tb)
+        public string SqlUpdate(
+            string[] fields,
+            string[] values,
+            string tb,
+            string idField,
+            string idValue)
         {
-            string conditionList = "";
+            string setValues = "";
 
             for (int i = 0; i < fields.Length; i++)
             {
-                if (values[i] is string)
-                {
-                    conditionList += fields[i] + " = '" + values[i] + "'";
-                }
-                else
-                {
-                    conditionList += fields[i] + " = " + values[i];
-                }
+                setValues += $"{fields[i]} = '{values[i]}'";
 
                 if (i < fields.Length - 1)
-                {
-                    conditionList += " AND ";
-                }
+                    setValues += ", ";
             }
 
-            string query = "SELECT * FROM " + tb +
-                           " WHERE " + conditionList + ";";
+            return $"UPDATE {tb} SET {setValues} WHERE {idField} = '{idValue}';";
+        }
 
-            return query;
+        public string SqlDelete(
+            string tb,
+            string idField,
+            string idValue)
+        {
+            return $"DELETE FROM {tb} WHERE {idField} = '{idValue}';";
+        }
+
+        public string ViewAll(string tb)
+        {
+            return $"SELECT * FROM {tb};";
         }
     }
 }
